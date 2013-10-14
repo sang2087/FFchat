@@ -11,7 +11,8 @@ class ChatMessage
 
 		puts "MESSAGE#{message} #{user_id}"
     self.class.push self
-    self.class.send_facebook_message @user_id,@message
+    #self.class.send_facebook_message @user_id,@message
+    FBMsgWorker.perform_async @user_id, @message
   end
 
   def self.push(chat_message)
