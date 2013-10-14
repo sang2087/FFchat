@@ -1,32 +1,11 @@
-class ChatMessage
-  HISTORY = 20
+class FBMsgWorker
+  include Sidekiq::Worker
 
-  attr_accessor :name, :message, :created_at, :user_id
+  def perform(user_id, message)
 
-  def initialize(name, message, created_at=Time.now, user_id)
-    @name = name
-    @message = message
-    @created_at = created_at
-		@user_id = user_id
-
-		puts "MESSAGE#{message} #{user_id}"
-    self.class.push self
-    #send_facebook_message
-    FBMsgWorker.perform_async user_id, message
-  end
-
-  def self.push(chat_message)
-    @chat_messages ||= []
-    @chat_messages << chat_message
-    @chat_messages = @chat_messages.reverse.take(HISTORY).reverse
-  end
-
-  def self.find
-    @chat_messages ||= []
-  end
-	
-	def send_facebook_message  
     current_user=User.find(user_id)
+    puts "Received on #{user_id}: #{message}"
+
 		User.all.each do |user|
 			unless user.id == current_user.id
 				puts "start facebook send!!!!!!!!!!"
@@ -47,4 +26,5 @@ class ChatMessage
 			end
 		end
 	end
+
 end

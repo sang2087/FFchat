@@ -15,3 +15,10 @@
 <input id="user_name" type="hidden" value="<%=@user.name%>"> 
 <input id="user_id" type="hidden" value="<%=@user.id%>"> 
 <hr>
+<script>
+  $('#msg_input').bind('keypress', function(e) {
+    if (e.which == 13 && $('#post_button').attr('disabled')!='disabled') { /* 13 == enter key@ascii */
+        $('#post_button').click();
+    }
+  });
+</script>

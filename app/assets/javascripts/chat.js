@@ -28,7 +28,7 @@
         created_at: new Date()
       });
       publication.callback(function() {
-        input.attr('value', '');
+        input.val('');
         button.removeAttr('disabled');
         return button.text('Post');
       });
